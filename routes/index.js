@@ -1,3 +1,9 @@
+/*
+ * @Project : Inventory Management Routes written here
+ * version : 1.0.0 (Beta)
+ * Author : Astitva Srivastava
+ * Email : as.astitvasrivastava@gmail.com
+ */
 var express = require("express");
 var router = express.Router();
 const { body, check } = require("express-validator");

@@ -1,5 +1,10 @@
+/*
+ * @Project : Inventory Management Business Logic written here
+ * version : 1.0.0 (Beta)
+ * Author : Astitva Srivastava
+ * Email : as.astitvasrivastava@gmail.com
+ */
 const db = require("../models");
-const Op = db.Sequelize.Op;
 const category = db.category;
 const subCategory = db.subCategory;
 const brands = db.brands;
@@ -109,7 +114,7 @@ module.exports = {
       }
 
       const file = req.file;
-
+      // Images should be store to some cloud storage like AWS S3 Buckets and served to front-end with cloud front for better performance.
       let imageName = "";
       if (file.path) {
         imageName = file.originalname;
@@ -183,7 +188,7 @@ module.exports = {
         default:
           break;
       }
-
+      // Check if the Miscellaneous Issue is created and product already at zero
       if (operationType === 2 && proDetails.quantity <= 0) {
         return res.status(400).json({
           status: false,
