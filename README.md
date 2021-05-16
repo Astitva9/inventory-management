@@ -6,6 +6,8 @@
 
 > Dummy Inventory Management module API's for ECommerce
 
+> API Documentation : https://documenter.getpostman.com/view/8620095/TzRX85VS
+
 ### ✨ [Demo](https://inventory-management-astitva.herokuapp.com/api/)
 
 ## Install
@@ -27,3 +29,5 @@ npm run dev
 - Github: [@Astitva9](https://github.com/Astitva9)
 
 ## Version Information
+
+- v1.0.0 Released
