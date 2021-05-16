@@ -84,6 +84,14 @@ module.exports = (sequelize, Sequelize) => {
         required: true,
         default: true,
       },
+      is_scrapped: {
+        type: Sequelize.BOOLEAN,
+        default: false,
+      },
+      quantity: {
+        type: Sequelize.INTEGER,
+        default: 0,
+      },
     },
     {
       timestamps: true,

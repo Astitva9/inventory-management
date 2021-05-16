@@ -1,8 +1,9 @@
 var express = require("express");
 var router = express.Router();
 const { body, check } = require("express-validator");
-const { validate } = require("../middleware");
+const { validate, checkProductExist } = require("../middleware");
 const controller = require("../controllers");
+const multer = require("multer");
 
 /* Add New category */
 router.put(
@@ -61,6 +62,102 @@ router.put(
   controller.addBrand
 );
 
+/* Add New Product */
+router.post(
+  "/addProduct",
+  multer({
+    dest: "assets/productImages",
+    limits: { fieldSize: 100 * 1024 * 1024 },
+  }).single("proImage"),
+  checkProductExist,
+  controller.addProduct
+);
+
+/* Update Stock */
+router.put(
+  "/updateStock/:count/:operationType/:serialNo",
+  validate([
+    check("count").not().isEmpty().withMessage("Please provide the New Count."),
+    check("operationType")
+      .not()
+      .isEmpty()
+      .withMessage(
+        "Please provide the Operation Type. 1 : Miscellaneous Transaction 2: Miscellaneous Issue"
+      ),
+    check("serialNo")
+      .not()
+      .isEmpty()
+      .withMessage("Please provide the Serial Number"),
+  ]),
+  controller.updateStock
+);
+// Add product To Scrap
+router.put(
+  "/pushToScrap/:serialNo",
+  validate([
+    check("serialNo")
+      .not()
+      .isEmpty()
+      .withMessage("Please provide the Serial Number"),
+  ]),
+  controller.pushToScrap
+);
+
+/* Get Stock Valuation */
+router.get(
+  "/getValuation/:valuationBy/:valuationID",
+  validate([
+    check("valuationBy")
+      .not()
+      .isEmpty()
+      .withMessage(
+        "Please provide the Valuation By: Like category, subCategory, or brand"
+      ),
+    check("valuationID")
+      .not()
+      .isEmpty()
+      .withMessage("Please provide the Valuation ID"),
+  ]),
+  controller.getValuation
+);
+/* Get Product Stock Valuation */
+router.get(
+  "/getProductValuation/:serialNo",
+  validate([
+    check("serialNo")
+      .not()
+      .isEmpty()
+      .withMessage("Please provide the Serial Number"),
+  ]),
+  controller.getProductValuation
+);
+
+/* Get Stock */
+router.get(
+  "/getStock/:stockBy/:id",
+  validate([
+    check("stockBy")
+      .not()
+      .isEmpty()
+      .withMessage(
+        "Please provide the Stock By: Like category, subCategory, or brand"
+      ),
+    check("id").not().isEmpty().withMessage("Please provide the ID"),
+  ]),
+  controller.getStock
+);
+
+/* Get Product Stock */
+router.get(
+  "/getProductStock/:serialNo",
+  validate([
+    check("serialNo")
+      .not()
+      .isEmpty()
+      .withMessage("Please provide the Serial Number"),
+  ]),
+  controller.getProductStock
+);
 /* GET Server Status */
 router.get("/", function (req, res, next) {
   res.status(200).json({ title: "API Running" });
