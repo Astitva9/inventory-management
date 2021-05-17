@@ -3,6 +3,7 @@ const db = require("../models");
 const product = db.product;
 
 module.exports = {
+  // Request param validations
   validate: (validations) => {
     return async (req, res, next) => {
       await Promise.all(validations.map((validation) => validation.run(req)));
@@ -15,8 +16,8 @@ module.exports = {
       res.status(422).json({ errors: errors.array() });
     };
   },
+  // Check for the product if already exist
   checkProductExist: async (req, res, next) => {
-    console.log(req.body);
     product
       .findOne({
         where: {
